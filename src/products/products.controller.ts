@@ -6,9 +6,11 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Prisma } from '@prisma/client';
+import { JwtAdminGuard } from 'src/auth/guards/jwt-admin.guard';
 
 @Controller('products')
 export class ProductsController {
@@ -29,6 +31,7 @@ export class ProductsController {
     return this.productsService.findOne(+id);
   }
 
+  @UseGuards(JwtAdminGuard)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -37,6 +40,7 @@ export class ProductsController {
     return this.productsService.update(+id, updateProductDto);
   }
 
+  @UseGuards(JwtAdminGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productsService.remove(+id);
