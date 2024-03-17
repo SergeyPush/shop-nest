@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider = "postgres"
+  url      = env("SHOP_DATABASE_URL")
 }
 
 model Product {
@@ -27,7 +27,12 @@ model User {
   name      String
   email     String   @unique
   password  String   
-  role      String   @default("user")
+  role      Role   @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
 }
