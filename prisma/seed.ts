@@ -13,6 +13,7 @@ async function main() {
       email: 'admin@mail.com',
       name: 'Admin',
       password: hashedPassword,
+      role: 'admin',
     },
   });
 }
