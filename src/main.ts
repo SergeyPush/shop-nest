@@ -14,7 +14,7 @@ async function bootstrap() {
   );
 
   const logger = new Logger(AppModule.name);
-  const PORT = 3000;
+  const PORT = process.env.PORT || 3000;
 
   await app.listen(PORT);
   logger.debug(`Application started on port ${PORT}`);
