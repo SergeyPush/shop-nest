@@ -21,7 +21,7 @@
     "prisma:format": "npx prisma format",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:seed": "npx prisma db seed",
-    "postbuild": "npx prisma db push  && npm run prisma:seed"
+    "postbuild": "npx prisma generate  && npm run prisma:seed"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
