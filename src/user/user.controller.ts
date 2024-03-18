@@ -13,6 +13,8 @@ import { Prisma } from '@prisma/client';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { JwtAdminGuard } from 'src/auth/guards/jwt-admin.guard';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -20,7 +22,7 @@ export class UserController {
 
   @UseGuards(JwtAdminGuard)
   @Post('/')
-  create(@Body() createUserDto: Prisma.UserCreateInput) {
+  create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
@@ -44,10 +46,7 @@ export class UserController {
 
   @UseGuards(JwtAdminGuard)
   @Patch(':id')
-  update(
-    @Param('id') id: number,
-    @Body() updateUserDto: Prisma.UserUpdateInput,
-  ) {
+  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 

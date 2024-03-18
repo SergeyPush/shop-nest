@@ -11,13 +11,15 @@ import {
 import { ProductsService } from './products.service';
 import { Prisma } from '@prisma/client';
 import { JwtAdminGuard } from 'src/auth/guards/jwt-admin.guard';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateUserDto } from './dto/update-product.dto';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post('/')
-  create(@Body() createProductDto: Prisma.ProductCreateInput) {
+  create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
 
@@ -33,10 +35,7 @@ export class ProductsController {
 
   @UseGuards(JwtAdminGuard)
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateProductDto: Prisma.ProductUpdateInput,
-  ) {
+  update(@Param('id') id: string, @Body() updateProductDto: UpdateUserDto) {
     return this.productsService.update(+id, updateProductDto);
   }
 
