@@ -9,7 +9,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { Prisma } from '@prisma/client';
 import { JwtAdminGuard } from 'src/auth/guards/jwt-admin.guard';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateUserDto } from './dto/update-product.dto';
