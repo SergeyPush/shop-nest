@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { JwtAdminGuard } from 'src/auth/guards/jwt-admin.guard';
@@ -23,8 +24,8 @@ export class ProductsController {
   }
 
   @Get('/')
-  findAll() {
-    return this.productsService.findAll();
+  findAll(@Query('limit') limit: number, @Query('page') page: number) {
+    return this.productsService.findAll(limit, page);
   }
 
   @Get(':id')

@@ -21,8 +21,19 @@ export class ProductsService {
     }
   }
 
-  async findAll() {
-    return this.databaseService.product.findMany();
+  async findAll(limit: number = 3, page: number = 1) {
+    const count = await this.databaseService.product.count();
+    const skip = (page - 1) * limit;
+    const products = await this.databaseService.product.findMany({
+      take: Math.max(limit, 3),
+      skip: Math.max(skip, 0),
+    });
+    return {
+      products,
+      count,
+      page: Math.max(page, 1),
+      pages: Math.ceil(count / limit) || 1,
+    };
   }
 
   async findOne(id: number) {
