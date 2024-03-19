@@ -9,30 +9,34 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { Prisma } from '@prisma/client';
 import { GetUser } from 'src/auth/get-user.decorator';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { JwtAdminGuard } from 'src/auth/guards/jwt-admin.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import Roles from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/types/role.interface';
+import { JwtRoleGuard } from 'src/auth/guards/jwt-role.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(JwtAdminGuard)
+  @UseGuards(JwtRoleGuard)
+  @Roles([Role.ADMIN])
   @Post('/')
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
-  @UseGuards(JwtAdminGuard)
+  @UseGuards(JwtRoleGuard)
+  @Roles([Role.ADMIN])
   @Get('/')
   findAll() {
     return this.userService.findAll();
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtRoleGuard)
+  @Roles([Role.ADMIN, Role.USER])
   @Get('/me')
   async whoAmI(@GetUser() user) {
     return this.userService.getUserInfo(user);
